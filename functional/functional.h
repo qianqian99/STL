@@ -150,5 +150,43 @@ namespace hgg
     {
         return binary_negate<_BFUN>(fun);
     }
+/////////////////////////////////////////////////
+/*pointer_to_function*/
+    template <typename _A, typename _R>
+    class pointer_to_unary_function : public unary_funtion<_A, _R>
+    {
+        private:
+            _R (*pfun)(_A);
+        public:
+            pointer_to_unary_function(_R (*fun)(_A)) : pfun(fun){}
+            _R operator()(const _A& arg) const
+            {
+                return (*pfun)(arg);
+            }
+    };
+    template <typename _A, typename _R>
+    inline pointer_to_unary_function<_A, _R>
+    ptr_fun(_R (*pf)(_A))
+    {
+        return pointer_to_unary_function<_A, _R>(pf);
+    }
+    template <typename _A, typename _B, typename _R>
+    class pointer_to_binary_function : binary_function<_A, _B, _R>
+    {
+        private:
+            _R (*pfun)(_A, _B);
+        public:
+            pointer_to_binary_function(_R(*fun)(_A, _B)) : pfun(fun){}
+            _R operator()(const _A &left, const _B &right) const
+            {
+                return (*pfun)(left, right);
+            }
+    };
+    template <typename _A, typename _B, typename _R>
+    inline pointer_to_binary_function<_A, _B, _R>
+    ptr_fun(_R (*fun)(_A, _B))
+    {
+        return pointer_to_binary_function<_A, _B, _R>(fun);
+    }
 }
 #endif

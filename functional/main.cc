@@ -79,3 +79,20 @@ int main()
     return 0;
 }
 #endif
+
+int add_self(int a)
+{
+    return ++a;
+}
+int add(int a, int b)
+{
+    return a+b;
+}
+int main()
+{
+    //pointer_to_unary_function<int, int> Add(add_self);
+    //cout << ptr_fun(add_self)(10) << endl;
+    //hgg::pointer_to_binary_function<int, int, int> Add(add);
+    cout << hgg::ptr_fun(add)(3,4) << endl;
+    return 0;
+}

@@ -122,8 +122,56 @@ namespace hgg
                     transfer(dest, first, last);
                 }
             }
-            iterator reomve_if();
-            iterator remove();
+            iterator erase(iterator dest) {
+                if (empty() || dest == end()) return end();
+                else {
+                    link_type next = dest.node->next;
+                    next->prev = dest.node->prev;
+                    dest.node->prev->next = next;
+                    free(dest.node);
+                    return next;
+                }
+            }
+            template <typename _F>
+            void reomve_if(const _F&fun){
+                for (iterator it=begin(); it!=end();) {
+                    if (fun(*it)) erase(it++);
+                    else ++it;
+                }
+            }
+            void remove(const Type& elem) {
+                for (iterator it=begin(); it!=end();) {
+                    if (elem == *it) erase(it++);
+                    else ++it;
+                }
+            }
+            void merge(this_type &X) {
+                iterator _F1 = begin(), _L1 = end();
+                iterator _F2 = X.begin(), _L2 = X.end();
+                while (_F1 != _L1 && _F2 != _L2) {
+                    if (*_F2 < *_F1) {
+                        iterator _M = _F2++;
+                        transfer(_F1, _M, _F2);
+                    }
+                    else ++_F1;
+                }
+                if (_F2 != _L2) {
+                    transfer(end(), _F2, _L2);
+                }
+            }
+            void swap(this_type &other) {
+                link_type tmp = node;
+                node = other.node;
+                other.node = tmp;
+            }
+            void reverse() {
+                if (node->next == node || node->next->next == node) return;
+                iterator first = ++begin(), last=end();
+                while (first != last) {
+                    iterator tmp = first++;
+                    transfer(begin(), tmp, first);
+                }
+            }
         protected:
             link_type get_node() {
                 return (link_type)malloc(sizeof(list_node));

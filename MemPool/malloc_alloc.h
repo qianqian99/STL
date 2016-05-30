@@ -7,7 +7,6 @@
 #include <iostream>
 #define __THROW_BAD_ALLOC std::cerr<<"out of memory"<<std::endl; exit(-1)
 #endif
-template <int inst>
 class __malloc_alloc_template {
     private:
         static void *oom_malloc(size_t);
@@ -35,10 +34,8 @@ class __malloc_alloc_template {
             return old;
         }
 };
-template <int inst>
-void (*__malloc_alloc_template<inst>::__malloc_alloc_oom_handler)() = NULL;
-template <int inst>
-void *__malloc_alloc_template<inst>::oom_malloc(size_t n) {
+void (*__malloc_alloc_template::__malloc_alloc_oom_handler)() = NULL;
+void *__malloc_alloc_template::oom_malloc(size_t n) {
     PFun my_malloc_handler;
     void *result;
     for (;;) {
@@ -49,8 +46,7 @@ void *__malloc_alloc_template<inst>::oom_malloc(size_t n) {
         if (NULL != result) return result;
     }
 }
-template <int inst>
-void *__malloc_alloc_template<inst>::oom_realloc(void *p, size_t sz) {
+void *__malloc_alloc_template::oom_realloc(void *p, size_t sz) {
     PFun my_malloc_handler;
     void * result;
     for(;;) {
@@ -61,3 +57,4 @@ void *__malloc_alloc_template<inst>::oom_realloc(void *p, size_t sz) {
         if (NULL != result) return result;
     }
 }
+typedef __malloc_alloc_template first_allocator;

@@ -1,6 +1,7 @@
-#include "malloc_alloc.h"
+#include "default_alloc.h"
 int main(){
-    void *p = __malloc_alloc_template<10>::allocate(sizeof(int));
-    void *r = __malloc_alloc_template<10>::reallocate(p, sizeof(int), sizeof(int)*2);
+    for (size_t i=0; i<129; ++i) {
+        std::cout << second_allocator::Index(i) << std::endl;
+    }
     return 0;
 }

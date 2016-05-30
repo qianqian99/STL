@@ -33,10 +33,17 @@ size_t __default_alloc_template::heap_size = 0;
 typename __default_alloc_template::obj 
 *volatile __default_alloc_template::free_list[Num];
 void *__default_alloc_template::allocate(size_t sz) {
-    obj *result;
     if (sz > (size_t)MaxBlock) {
         return __malloc_alloc_template::allocate(sz);
     }
     obj *volatile *my_free_list = free_list + Index(sz);
+    obj *result = *my_free_list;
+    if (result == NULL) {
+        return refill(Round_up(sz));
+    }
+    *my_free_list = result->free_list_link;
+    return result;
+}
+void *__default_alloc_template::refill(size_t size) {
 }
 typedef __default_alloc_template second_allocator;

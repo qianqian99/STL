@@ -3,9 +3,9 @@
 int main(){
     for (int i=0; i<20240000; ++i) {
         size_t all = rand()%250 +1;
-        second_allocator::allocate(all);
+        malloc(all);
     }
-    printf("finish \n");
+    printf("finish\n");
     sleep(100);
     return 0;
 }

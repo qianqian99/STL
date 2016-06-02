@@ -37,12 +37,41 @@ namespace hgg{
         }
         return i;
     }
-    template <typename _BI, typename _F>
-    void merge_sort(_BI first, _BI last, _F fun) {
-        _BI::difference_type size = distance(first, last);
-        int s = 1;
-        while (s<size) {
-            _BI next = first;
+
+    template <typename _BI>
+    void merge(_BI _F1, _BI L1, _BI F2, _BI L2) {
+        while (_F1 != _L1 && _F2 != _L2) {
+            if (*_F2 < *_F1) {
+                iterator _M = _F2++;
+                transfer(_F1, _M, _F2);
+            }
+            else ++_F1;
         }
+        if (_F2 != _L2) {
+            transfer(end(), _F2, _L2);
+        }
+    }
+    template <typename _Con, typename _F>
+    void merge_sort(_Con &container, _F fun) {
+        typedef  typename _Con::iterator::difference_type diff_type;
+        typedef typename _Con::iterator iterator;
+        diff_type size = advance(container.begin(), container.end());
+        _Con _X;
+        diff_type s = 1;
+        iterator _L = container.end();
+        while (s < size) {
+            advance(_L, s);
+            merge(_X.begin(), _X.end(), container.begin(), _L);
+            s += s;
+            
+            _L = container.begin();
+            advance(_L, s);
+            merge(container.begin(), _L, _X.begin(), _X.end());
+            s += s;
+        }
+
+        //10 8, 9, 12, 234, 23
+        //_X                   
+        //container  8 9 10 12 234 23
     }
 }

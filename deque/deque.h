@@ -7,6 +7,7 @@ class deque{
         typedef value_type * pointer;
         typedef size_t size_type;
         typedef deque this_type;
+        typedef value_type & reference;
 
         //todo
         typedef _deque_iterator<> iterator;
@@ -17,5 +18,11 @@ class deque{
         iterator finish;
         map_pointer map;
         size_type map_size;
+    public:
+        iterator begin() {return start;}
+        iterator end() {return finish;}
+        reference operator[](size_type n) {
+            return start[difference_type(n)];
+        }
 };
 #endif

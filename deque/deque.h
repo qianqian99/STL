@@ -1,6 +1,7 @@
 #ifndef _DEQUE_H_
 #define _DEQUE_H_
 #include "iterator.h"
+
 template <typename _T, typename _A=std::alloc, size_t BuffSize=0>
 class deque{
     public:

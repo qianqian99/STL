@@ -1,7 +1,6 @@
 #ifndef _ITERATOR_H_
 #define _ITERATOR_H_
 namespace hgg {
-
     inline size_t _deque_buf_size(size_t n, size_t sz) {
         return n != 0 ? n :
             (sz<512 ? size_t(512/sz) : size_t(1));

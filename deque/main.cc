@@ -1,15 +1,15 @@
 #include <iostream>
 #include <deque>
 #include <algorithm>
-#include "iterator.h"
 using namespace std;
+template <typename Iterator>
+void show(Iterator first, Iterator last) {
+    for (; first != last; ++first) {
+        cout << *first << " ";
+    }
+    cout << endl;
+}
 int main() {
-    deque<int> queue;
-    queue.push_back(100);
-    queue.push_back(100);
-    queue.push_back(100);
-    queue.push_back(100);
-    queue.push_back(100);
-    queue[4] = 3;
+    deque<int> queue(10, 4);
     return 0;
 }

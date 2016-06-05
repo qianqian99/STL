@@ -1,15 +1,14 @@
 #include <iostream>
-#include <deque>
-#include <algorithm>
-using namespace std;
+#include "deque.h"
 template <typename Iterator>
 void show(Iterator first, Iterator last) {
     for (; first != last; ++first) {
-        cout << *first << " ";
+        std::cout << *first << " ";
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 int main() {
-    deque<int> queue(10, 4);
+    hgg::deque<int> queue(10, 4);
+    show(queue.begin(), queue.end());
     return 0;
 }

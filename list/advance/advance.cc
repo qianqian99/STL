@@ -92,6 +92,7 @@ namespace Advance
         advance(it, n, _Cat_Iter(it));
     }
 };
+#if 0
 int main()
 {
     int arr[10];
@@ -104,7 +105,6 @@ int main()
     std::vector<int> _vec(arr, arr+10);
     return 0;
 }
-#if 0
 int main()
 {
     int arr[10];

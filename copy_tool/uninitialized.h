@@ -1,6 +1,8 @@
 #ifndef _UNINITIALIZED_H_
 #define _UNINITIALIZED_H_
 #include "../construct/construct.h"
+#include "../type_traits/type_traits.h"
+#include "../list/advance/advance.cc"
 namespace hgg
 {
     /*//////////////////////////first one named   uninitialized_fill_n/////////////////////////*/
@@ -34,7 +36,7 @@ namespace hgg
             const T&x,
             __true_type) 
     {
-        return fill_n(first, n, x);
+        return hgg::fill_n(first, n, x);
     }
     template <typename ForwardIterator, typename Size, typename T, typename T1>
     inline ForwardIterator _uninitialized_fill_n(
@@ -52,7 +54,7 @@ namespace hgg
             Size n,
             const T&x)
     {
-        return _uninitialized_fill_n(first, n, x, value_type(first));
+        return _uninitialized_fill_n(first, n, x, Advance::value_type(first));
     }
     /*////////////////////////second one named uninitialized_fill//////////*/
     template <typename ForwardIterator, typename T>
@@ -102,7 +104,7 @@ namespace hgg
             ForwardIterator last,
             const T&x)
     {
-        _uninitialized_fill(first, last, x, value_type(first));
+        _uninitialized_fill(first, last, x, Advance::value_type(first));
     }
 }
 #endif

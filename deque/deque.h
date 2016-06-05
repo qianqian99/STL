@@ -90,6 +90,7 @@ void deque<_T, _A, BuffSize>::create_map_nodes(size_type n) {
     finish.set_node(nfinish);
     start.cur = start.first;
     finish.cur = finish.first + n % buff_size();
+    /*[head, tail)*/
 }
 }
 #endif

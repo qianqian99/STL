@@ -69,7 +69,7 @@ namespace hgg {
                 --*this;
                 return tmp;
             }
-            self operator+=(difference_type n) {
+            self &operator+=(difference_type n) {
                 difference_type diff = n + (cur-first);
                 /*in one commen buffer*/
                 if (diff >= 0 && diff < difference_type(buff_size())) {
@@ -80,7 +80,7 @@ namespace hgg {
                     difference_type node_offset = 
                         diff > 0 ? diff/difference_type(buff_size())
                         : -difference_type((-diff-1)/buff_size()) - 1;
-                    set_node(node_offset);
+                    set_node(node + node_offset);
                     cur = first + (diff - node_offset * difference_type(buff_size()));
                 }
                 return *this;

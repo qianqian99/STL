@@ -2,6 +2,7 @@
 #define _DEQUE_H_
 #include "iterator.h"
 #include "../MemPool/simple_alloc.h"
+#include "../copy_tool/uninitialized.h"
 template <typename _T, typename _A=second_allocator,  size_t BuffSize=0>
 class deque{
     public:

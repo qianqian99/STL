@@ -16,7 +16,6 @@ class deque{
         static size_t buff_size() {
             return hgg::_deque_buf_size(BuffSize, sizeof(_T));
         }
-        //todo
         typedef hgg::_deque_iterator<_T, _T *, _T &, BuffSize> iterator;
         /*for the queue and the stack, we use protected*/
         iterator begin() {
@@ -37,9 +36,6 @@ class deque{
             --tmp;
             return *tmp;
         }
-        //size_type size() const {
-        //    return finish - start;
-        //}
         bool empty() const{
             return start == finish;
         }
@@ -59,9 +55,23 @@ class deque{
         map_pointer map;
         size_type map_size;
         const static int default_map_size; 
+    private:
+
+        //todo
+        void push_back_aux(const _T &val) {
+        }
     public:
         size_type max(size_type first, size_type second) {
             return first > second ? first : second;
+        }
+        void push_back(const _T &val) {
+            if (finish.cur != finish.last-1) {
+                construct(finish.cur, val);
+                ++finish.cur;
+            }
+            else {
+                push_back_aux(val);
+            }
         }
 };
 template <typename _T, typename _A, size_t BuffSize>

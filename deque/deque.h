@@ -3,6 +3,7 @@
 #include "iterator.h"
 #include "../MemPool/simple_alloc.h"
 #include "../copy_tool/uninitialized.h"
+#include <algorithm>
 namespace hgg{
 template <typename _T, typename _A=second_allocator,  size_t BuffSize=0>
 class deque{
@@ -56,9 +57,46 @@ class deque{
         size_type map_size;
         const static int default_map_size; 
     private:
-
-        //todo
+        void reallocate_map(size_t add_size, bool is_add_front) {
+            size_type num_use_nodes = finish.node - start.node + 1;
+            size_type new_nodes = num_use_nodes + add_size;
+            map_pointer new_start;
+            /*只是需要重新修改中控的位置*/
+            if (map_size > 2*new_nodes) {
+                /*精华的调整*/
+                new_start = map + (map_size - new_nodes) / 2
+                                +(is_add_front ? add_size : 0);
+                /*在左边*/
+                if (new_start < start.node) {
+                    std::copy(start.node, finish.node+1, new_start);
+                }
+                else {
+                    std::copy_backward(start.node, finish.node+1, new_start+num_use_nodes);
+                }
+            }
+            else {
+                size_type new_map_size = map_size + max(map_size, add_size) + 2;
+                map_pointer new_map = map_allcator::allocate(new_map_size);
+                new_start = map + (map_size - new_nodes) / 2
+                                +(is_add_front ? add_size : 0);
+                std::copy(start.node, finish.node+1, new_map);
+                map_allcator::deallocate(map, map_size);
+                map = new_map;
+                map_size = new_map_size;
+            }
+            start.set_node(new_start);
+            finish.set_node(new_start + num_use_nodes - 1);
+        }
+        void reserve_map_at_back(size_type add_size = 1) {
+            if (add_size + 1 > map_size - (finish.node - map)) 
+                reallocate_map(add_size, false);
+        }
         void push_back_aux(const _T &val) {
+            reserve_map_at_back();
+            *(finish.node + 1) = data_allocator::allocate(hgg::_deque_buf_size(0, sizeof(_T)));
+            construct(finish.cur, val);
+            finish.set_node(finish.node + 1);
+            finish.cur = finish.first;
         }
     public:
         size_type max(size_type first, size_type second) {

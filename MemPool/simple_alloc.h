@@ -17,4 +17,7 @@ class simple_alloc{
         static void deallocate(T *p) {
             _A::deallocate(p, sizeof(T));
         }
+        static T *reallocate(void *p, size_t old_size, size_t new_size) {
+            return (T *)_A::reallocate(p, old_size*sizeof(T), new_size*sizeof(T));
+        }
 };

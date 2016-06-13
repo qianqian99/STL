@@ -78,9 +78,9 @@ class deque{
             else {
                 size_type new_map_size = map_size + max(map_size, add_size) + 2;
                 map_pointer new_map = map_allcator::allocate(new_map_size);
-                new_start = map + (map_size - new_nodes) / 2
+                new_start = new_map + (new_map_size - new_nodes) / 2
                                 +(is_add_front ? add_size : 0);
-                std::copy(start.node, finish.node+1, new_map);
+                std::copy(start.node, finish.node+1, new_start);
                 map_allcator::deallocate(map, map_size);
                 map = new_map;
                 map_size = new_map_size;
@@ -109,8 +109,8 @@ class deque{
             reserve_map_at_front();
             *(start.node-1) = data_allocator::allocate(
                     hgg::_deque_buf_size(0, sizeof(_T)));
-            start.set_node(start.node + 1);
-            start.cur = start.last;
+            start.set_node(start.node - 1);
+            start.cur = start.last - 1;
             construct(start.cur, val);
         }
     public:

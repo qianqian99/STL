@@ -18,9 +18,10 @@ int main() {
     for (int i=0; i<1024; ++i)
     queue.push_back(i);
     show(queue.begin(), queue.end());
-    for (int i=0; i<1024; ++i)
-    queue.push_front(i);
-    show(queue.begin(), queue.end());
+    queue.push_front(100);
+    //for (int i=0; i<1024; ++i)
+    //queue.push_front(i);
+    //show(queue.begin(), queue.end());
     return 0;
 }
 #else

@@ -7,7 +7,7 @@ void show(Iterator first, Iterator last) {
     }
     std::cout << std::endl;
 }
-#if 1
+#if 1 
 #include "deque.h"
 int main() {
     /*
@@ -20,20 +20,15 @@ int main() {
     //show(queue.begin(), queue.end());
     for (int i=0; i<1024; ++i)
     queue.push_front(i);
-    show(queue.begin(), queue.end());
+  //  show(queue.begin(), queue.end());
+    std::cout << queue.size() << std::endl; 
     return 0;
 }
 #else
+#include <deque>
 int main() {
-    int array[9] = {1,2,3,4,5,6,7,8,9};
-    const int len = sizeof(array)/sizeof(array[0]);
-    int brray[9] = {};
-    int crray[9] = {};
-    show(array, array+len);
-    std::copy(array+3, array+len, brray);
-    show(brray, brray+len);
-    std::copy_backward(array+3, array+len, crray+len);
-    show(crray, crray+len);
+    std::deque<int> queue(6, 7);
+    queue.size();
     return 0;
 }
 #endif

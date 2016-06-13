@@ -117,6 +117,9 @@ class deque{
         size_type max(size_type first, size_type second) {
             return first > second ? first : second;
         }
+        size_type size() const{
+            return finish - start;
+        }
         void push_front(const _T &val) {
             if (start.cur != start.first) {
                 construct(start.cur-1, val);
@@ -133,6 +136,29 @@ class deque{
             }
             else {
                 push_back_aux(val);
+            }
+        }
+    private:
+        iterator insert_aux(iterator pos, const _T &val) {
+            /*拥有元素个数的多少，来决定挪的是哪一个数据*/
+            size_type diffBe = pos - start;
+            //if (diffBe < )
+            return start;
+        }
+        /*在此我不提供insert方法因此放在私有*/
+        iterator insert(iterator pos, const _T &val) {
+            if (pos.cur == start.cur) {
+                push_front(val);
+                return start;
+            }
+            else if (pos.cur == finish.cur){
+                push_back(val);
+                iterator tmp = finish;
+                --tmp;
+                return tmp;
+            }
+            else {
+                return insert_aux(pos, val);
             }
         }
 };

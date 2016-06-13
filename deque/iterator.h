@@ -107,6 +107,10 @@ namespace hgg {
                 return cur != x.cur;
             }
             /*< very good*/
+            size_type operator - (const self &_X) const {
+                size_type res = buff_size() * (node - _X.node - 1) + 
+                    (cur - first) + (_X.last - _X.cur);
+            }
             bool operator < (const self &x) const {
                 return node == x.node ? cur < x.cur : node < x.node;
             }

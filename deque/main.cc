@@ -7,7 +7,7 @@ void show(Iterator first, Iterator last) {
     }
     std::cout << std::endl;
 }
-#if 1 
+#if 0 
 #include "deque.h"
 int main() {
     /*
@@ -27,8 +27,10 @@ int main() {
 #else
 #include <deque>
 int main() {
-    std::deque<int> queue(6, 7);
-    queue.size();
+    int array[] = {1,2,3,4,5};
+    std::deque<int> queue(array, array+5);
+    std::copy(queue.begin(), queue.end()-1, queue.begin()+1);
+    show(queue.begin(), queue.end());
     return 0;
 }
 #endif

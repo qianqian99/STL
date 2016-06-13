@@ -142,7 +142,16 @@ class deque{
         iterator insert_aux(iterator pos, const _T &val) {
             /*拥有元素个数的多少，来决定挪的是哪一个数据*/
             size_type diffBe = pos - start;
-            //if (diffBe < )
+            if (diffBe < size()/2) {
+                push_front(val);
+                iterator front1 = start;
+                ++front;
+                iterator front2 = front1;
+                ++front2;
+                iterator pos1 = pos;
+                ++pos1;
+            }
+            else {}
             return start;
         }
         /*在此我不提供insert方法因此放在私有*/

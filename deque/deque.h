@@ -120,7 +120,7 @@ class deque{
         void push_front(const _T &val) {
             if (start.cur != start.first) {
                 construct(start.cur-1, val);
-                ++start.cur;
+                --start.cur;
             }
             else {
                 push_front_aux(val);

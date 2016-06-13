@@ -71,7 +71,8 @@ class deque{
                     std::copy(start.node, finish.node+1, new_start);
                 }
                 else {
-                    std::copy_backward(start.node, finish.node+1, new_start+num_use_nodes);
+                    std::copy_backward(start.node, finish.node+1, 
+                                       new_start+num_use_nodes);
                 }
             }
             else {
@@ -91,16 +92,39 @@ class deque{
             if (add_size + 1 > map_size - (finish.node - map)) 
                 reallocate_map(add_size, false);
         }
+        void reserve_map_at_front(size_type add_size =1) {
+            if (add_size > map - start.node) {
+                reallocate_map(add_size, true);
+            }
+        }
         void push_back_aux(const _T &val) {
             reserve_map_at_back();
-            *(finish.node + 1) = data_allocator::allocate(hgg::_deque_buf_size(0, sizeof(_T)));
+            *(finish.node + 1) = data_allocator::allocate(
+                         hgg::_deque_buf_size(0, sizeof(_T)));
             construct(finish.cur, val);
             finish.set_node(finish.node + 1);
             finish.cur = finish.first;
         }
+        void push_front_aux(const _T &val) {
+            reserve_map_at_front();
+            *(start.node-1) = data_allocator::allocate(
+                    hgg::_deque_buf_size(0, sizeof(_T)));
+            start.set_node(start.node + 1);
+            start.cur = start.last;
+            construct(start.cur, val);
+        }
     public:
         size_type max(size_type first, size_type second) {
             return first > second ? first : second;
+        }
+        void push_front(const _T &val) {
+            if (start.cur != start.first) {
+                construct(start.cur-1, val);
+                ++start.cur;
+            }
+            else {
+                push_front_aux(val);
+            }
         }
         void push_back(const _T &val) {
             if (finish.cur != finish.last-1) {

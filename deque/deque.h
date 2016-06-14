@@ -138,7 +138,38 @@ class deque{
                 push_back_aux(val);
             }
         }
-    public:
+        void pop_back() {
+            if (finish.cur != finish.first) {
+                --finish.cur;
+                destory(finish.cur);
+            }
+            else {
+                pop_back_aux();
+            }
+        }
+        void pop_back_aux() {
+            data_allocator::deallocate(finish.first);
+            finish.set_node(finish.node - 1);
+            finish.cur = finish.last - 1;
+            destory(finish.cur);
+        }
+        /*保证接口的相似性`*/
+        void pop_front_aux() {
+            destory(start.cur);
+            data_allocator::deallocate(start.first);
+            start.set_node(start.node + 1);
+            start.cur = start.first;
+        }
+        void pop_front() {
+            if (start.cur != start.last - 1) {
+                destory(start.cur);
+                ++start.cur;
+            }
+            else {
+                pop_front_aux();
+            }
+        }
+    private:
         iterator insert_aux(iterator pos, const _T &val) {
             /*拥有元素个数的多少，来决定挪的是哪一个数据*/
             size_type diffBe = pos - start;

@@ -14,10 +14,15 @@ int main() {
        每个大小是512/4= 128， 那么第一次是八个node
        可插入的元素是128×8=1024
     */
+    int arry[] = {1,2,3,4,5,6,7};
     hgg::deque<int> queue(10,3);
-    for (int i=0; i<1024; ++i)
-    queue.insert(queue.begin()+i, i);
-    show(queue.begin(), queue.end());
+    for (int i=0; i<7; ++i) {
+        queue.push_back(arry[i]);
+    }
+    for (int i=0; i<10; ++i) {
+        queue.pop_front();
+        show(queue.begin(), queue.end());
+    }
     return 0;
 }
 #else

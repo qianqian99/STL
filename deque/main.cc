@@ -32,7 +32,7 @@ int main() {
     std::deque<int> queue(array, array+8);
     // std::copy(queue.begin(), queue.end()-1, queue.begin()+1);
     queue.insert(queue.begin()+3, 1000);
-    show(queue.begin(), queue.end());
+    //show(queue.begin(), queue.end());
     return 0;
 }
 #endif

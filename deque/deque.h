@@ -112,6 +112,26 @@ class deque{
             start.set_node(start.node - 1);
             start.cur = start.last - 1;
             construct(start.cur, val);
+        } 
+        void destory(iterator first, iterator last, __false_type) {
+            while (first != last) {
+                hgg::destory(first.cur);
+                ++first;
+            }
+        }
+        void destory(iterator first, iterator last, __true_type) {
+            // nothing to do
+        }
+    public:
+        ~deque() {
+            typedef typename __type_traits<value_type>::has_trivial_destructor dest_type;
+            destory(start, finish, dest_type());
+            map_pointer freeline = start.node;
+            map_pointer endline = finish.node;
+            for (; freeline != endline; ++freeline) {
+                data_allocator::deallocate(*freeline);
+            }
+            map_allcator::deallocate(map);
         }
     public:
         size_type max(size_type first, size_type second) {
@@ -141,7 +161,7 @@ class deque{
         void pop_back() {
             if (finish.cur != finish.first) {
                 --finish.cur;
-                destory(finish.cur);
+                hgg::destory(finish.cur);
             }
             else {
                 pop_back_aux();
@@ -151,18 +171,18 @@ class deque{
             data_allocator::deallocate(finish.first);
             finish.set_node(finish.node - 1);
             finish.cur = finish.last - 1;
-            destory(finish.cur);
+            hgg::destory(finish.cur);
         }
         /*保证接口的相似性`*/
         void pop_front_aux() {
-            destory(start.cur);
+            hgg::destory(start.cur);
             data_allocator::deallocate(start.first);
             start.set_node(start.node + 1);
             start.cur = start.first;
         }
         void pop_front() {
             if (start.cur != start.last - 1) {
-                destory(start.cur);
+                hgg::destory(start.cur);
                 ++start.cur;
             }
             else {

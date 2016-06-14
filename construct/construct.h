@@ -7,5 +7,9 @@ namespace hgg
     inline T1 *construct(T1 *p, const T2 &x) {
         return new(p) T1(x);
     }
+    template <typename T>
+    void destory(T *pcur) {
+        pcur->~T();
+    }
 }
 #endif

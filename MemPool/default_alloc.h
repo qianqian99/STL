@@ -32,7 +32,7 @@ class __default_alloc_template {
 char *__default_alloc_template::start_free = 0;
 char *__default_alloc_template::end_free = 0;
 size_t __default_alloc_template::heap_size = 0;
-typename __default_alloc_template::obj 
+__default_alloc_template::obj 
 *volatile __default_alloc_template::free_list[Num];
 void *__default_alloc_template::allocate(size_t sz) {
     if (sz > (size_t)MaxBlock) {

@@ -138,20 +138,35 @@ class deque{
                 push_back_aux(val);
             }
         }
-    private:
+    public:
         iterator insert_aux(iterator pos, const _T &val) {
             /*拥有元素个数的多少，来决定挪的是哪一个数据*/
             size_type diffBe = pos - start;
             if (diffBe < size()/2) {
-                push_front(val);
+                /*非常好而且非常有必要*/
+                push_front(*start);
+                /*新插入元素会导致迭代器失效*/
                 iterator front1 = start;
-                ++front;
+                ++front1;
                 iterator front2 = front1;
                 ++front2;
+                /*调整失效后的迭代器*/
+                pos = start + diffBe;
                 iterator pos1 = pos;
                 ++pos1;
+                std::copy(front2, pos1, front1);
             }
-            else {}
+            else {
+                push_back(back());
+                iterator tail1 = finish;
+                --tail1;
+                iterator tail2 = tail1;
+                --tail2;
+                /*迭代器会失效*/
+                pos = start + diffBe;
+                std::copy_backward(pos, tail2, tail1);
+            }
+            *pos = val;
             return start;
         }
         /*在此我不提供insert方法因此放在私有*/

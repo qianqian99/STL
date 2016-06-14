@@ -20,7 +20,7 @@ int main() {
         queue.push_back(arry[i]);
     }
     for (int i=0; i<10; ++i) {
-        queue.pop_front();
+        queue.erase(queue.begin()+i);
         show(queue.begin(), queue.end());
     }
     return 0;

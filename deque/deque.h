@@ -169,6 +169,21 @@ class deque{
                 pop_front_aux();
             }
         }
+        iterator erase(iterator pos) {
+            iterator next = pos;
+            ++next;
+            size_type diff = pos - start;
+            if (diff < size()/2) {
+                std::copy_backward(start, pos, next);
+                // [start, pos)     next)
+                pop_front();
+            }
+            else {
+                std::copy(next, finish, pos);
+                pop_back();
+            }
+            return start+diff;
+        }
     private:
         iterator insert_aux(iterator pos, const _T &val) {
             /*拥有元素个数的多少，来决定挪的是哪一个数据*/

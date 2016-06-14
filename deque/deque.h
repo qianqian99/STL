@@ -40,6 +40,28 @@ class deque{
         bool empty() const{
             return start == finish;
         }
+        bool operator == (const deque& odeque) const {
+            iterator f1 = begin();
+            iterator l1 = end();
+            iterator f2 = odeque.begin();
+            iterator l2 = odeque.end(); 
+            while (f1 != l1 && f2 != l2) {
+                if (*f1 != *f2) return false;
+            }
+            if (f1 == l1 && f2 == l2) return true;
+            return false; 
+        }
+        bool operator < (const deque& odeque) const {
+            iterator f1 = begin();
+            iterator l1 = end();
+            iterator f2 = odeque.begin();
+            iterator l2 = odeque.end(); 
+            while (f1 != l1 && f2 != l2) {
+                if (*f1 < *f2) return true;
+            }
+            if (f1 == l1 && f2 != l2) return true;
+            return false; 
+        }
         deque(int n, const value_type &val)
             : start(), finish(), map(0), map_size(0)
         {
@@ -124,7 +146,8 @@ class deque{
         }
     public:
         ~deque() {
-            typedef typename __type_traits<value_type>::has_trivial_destructor dest_type;
+            typedef typename __type_traits<value_type>::has_trivial_destructor
+                             dest_type;
             destory(start, finish, dest_type());
             map_pointer freeline = start.node;
             map_pointer endline = finish.node;

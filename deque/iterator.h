@@ -1,5 +1,7 @@
 #ifndef _ITERATOR_H_
 #define _ITERATOR_H_
+#include <cstddef>
+#include <iostream>
 namespace hgg {
     inline size_t _deque_buf_size(size_t n, size_t sz) {
         return n != 0 ? n :
@@ -8,9 +10,9 @@ namespace hgg {
     template <typename T, typename Ptr, typename Ref, size_t BuffSize>
     class _deque_iterator{
         public:
-            //typedef _deque_iterator<T, T*, T&, BuffSize> iterator;
-           // typedef _deque_iterator<T, const T*, const T&, BuffSize> 
-                //const_iterator;
+           typedef _deque_iterator<T, T*, T&, BuffSize> iterator;
+           typedef _deque_iterator<T, const T*, const T&, BuffSize> 
+                const_iterator;
             static size_t buff_size() {
                 return _deque_buf_size(BuffSize, sizeof(T));
             }

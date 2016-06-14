@@ -1,3 +1,5 @@
 ##deque
 基于SGI的STL<br>
-模仿，学习
+模仿，学习<br>
+question 1:迭代器失效?<br>
+对于细节的把握

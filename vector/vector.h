@@ -93,6 +93,65 @@ class vector{
                 insert_aux(end(), val);
             }
         }
+        void pop_back() {
+            --finish;
+            destory(finish);
+        }
+        iterator erase(iterator pos) {
+            if (pos + 1 != end())
+                std::copy(pos+1, finish, pos);
+            --finish;
+            destory(finish);
+            return pos;
+        }
+        iterator erase(iterator first, iterator last) {
+            iterator i = std::copy(last, finish, first);
+            destory(i, finish);
+            finish = finish - (last - first);
+            return first;
+            /*被删除元素的下一个元素*/
+        }
+        iterator insert(iterator pos, size_type n, const T&val) {
+            if (n == 0)  return end();
+            if ((size_type)(end_of_storage-finish) >= n) {
+                const size_type elems_after = finish - pos;
+                iterator old_finish = finish;
+                if (elems_after > n) {
+                    /*先构造finish后的n个数据
+                      再copy elems_after-n 个数据
+                      再填充n个数据*/
+                    uninitialized_copy(finish-n, finish, finish);
+                    finish += n;
+                    std::copy_backward(pos, old_finish-n, old_finish);
+                    fill(pos, pos+n, val);
+                }
+                else {
+                    /*补出n-elems_after个数据
+                      copy数据elems_after,
+                      fill elems_after个数据val
+                    */
+                    uninitialized_fill_n(finish, n-elems_after, val);
+                    finish += n-elems_after;
+                    uninitialized_copy(pos, old_finish, finish);
+                    finish += elems_after;
+                    fill(pos, old_finish, val);
+                }
+            }
+            else {
+
+            }
+        }
+        void resize(size_type new_size, const T&val) {
+            if (new_size < size()) {
+                erase(begin()+new_size,  end());
+            }
+            else {
+                insert(end(), new_size-size(), val);
+            }
+        }
+        void resize(size_type new_size) {
+            return resize(new_size, T());
+        }
 };
 }
 #endif

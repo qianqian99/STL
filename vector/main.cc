@@ -1,4 +1,4 @@
-#if 1
+#if 0
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -23,6 +23,11 @@ void show(Iterator first, Iterator last) {
 }
 int main() {
     hgg::vector<int> v(100);
+    v.push_back(100);
+    v.push_back(20);
+    v.push_back(20);
+    v.push_back(20);
+    v.push_back(20);
     show(v.begin(), v.end());
     return 0;
 }

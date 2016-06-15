@@ -2,7 +2,6 @@
 #define _UNINITIALIZED_H_
 #include "../construct/construct.h"
 #include "../type_traits/type_traits.h"
-#include "../list/advance/advance.cc"
 #include <cstring>
 namespace hgg
 {

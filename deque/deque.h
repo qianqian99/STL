@@ -135,20 +135,9 @@ class deque{
             start.cur = start.last - 1;
             construct(start.cur, val);
         } 
-        void destory(iterator first, iterator last, __false_type) {
-            while (first != last) {
-                hgg::destory(first.cur);
-                ++first;
-            }
-        }
-        void destory(iterator first, iterator last, __true_type) {
-            // nothing to do
-        }
     public:
         ~deque() {
-            typedef typename __type_traits<value_type>::has_trivial_destructor
-                             dest_type;
-            destory(start, finish, dest_type());
+            destory(start, finish);
             map_pointer freeline = start.node;
             map_pointer endline = finish.node;
             for (; freeline != endline; ++freeline) {

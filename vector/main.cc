@@ -28,6 +28,7 @@ int main() {
     v.push_back(20);
     v.push_back(20);
     v.push_back(20);
+    v.insert(v.begin(), 100, 99);
     show(v.begin(), v.end());
     return 0;
 }

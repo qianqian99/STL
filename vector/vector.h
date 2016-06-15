@@ -57,6 +57,10 @@ class vector{
         vector(size_type n, const T&val) {
             fill_initialize(n, val);
         }
+        ~vector(){
+            destory(start, finish);
+            data_allocator::deallocate(start);
+        }
         explicit vector(size_type n) {
             fill_initialize(n, T());
         }
@@ -138,7 +142,17 @@ class vector{
                 }
             }
             else {
-
+                const size_type old_size = size();
+                const size_type new_size = old_size + (old_size>n?old_size:n);
+                iterator new_start = data_allocator::allocate(new_size);
+                iterator new_finish = uninitialized_copy(start, pos, new_start);
+                new_finish = uninitialized_fill_n(new_finish, n, val);
+                new_finish = uninitialized_copy(pos, finish, new_finish);
+                destory(start, finish);
+                data_allocator::deallocate(start);
+                start = new_start;
+                finish = new_finish;
+                end_of_storage = new_start + new_size;
             }
         }
         void resize(size_type new_size, const T&val) {

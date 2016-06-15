@@ -3,6 +3,7 @@
 #include "../construct/construct.h"
 #include "../type_traits/type_traits.h"
 #include "../list/advance/advance.cc"
+#include <cstring>
 namespace hgg
 {
     /*//////////////////////////first one named   uninitialized_fill_n/////////////////////////*/
@@ -105,6 +106,50 @@ namespace hgg
             const T&x)
     {
         _uninitialized_fill(first, last, x, Advance::value_type(first));
+    }
+    ///////////////////////////// uninitialized_copy //////////////////
+    /*特化版本， 需要知道函数没有偏特化*/
+    /*特化与重载的区别：对传入的参数有限制， 重载可以是最传入的参数加上限制*/
+   
+    template <typename InputIterator, typename ForwardIterator>
+    ForwardIterator _uninitialized_copy_aux
+    (InputIterator first, InputIterator last,
+     ForwardIterator dest, __true_type)
+    {
+        return std::copy(first, last, dest);
+    }
+    template <typename InputIterator, typename ForwardIterator>
+    ForwardIterator _uninitialized_copy_aux
+    (InputIterator first, InputIterator last,
+     ForwardIterator dest, __false_type)
+    {
+        ForwardIterator res = dest;
+        for (; first != last; ++first, ++dest) {
+            construct(&*dest, *first);
+        }
+        return res;
+    }
+    template <typename InputIterator, typename ForwardIterator, typename T>
+    ForwardIterator _uninitialized_copy
+    (InputIterator first, InputIterator last,
+     ForwardIterator dest, T *)
+    {
+        typedef typename  __type_traits<T>::is_POD_type is_POD;
+        return _uninitialized_copy_aux(first, last, dest, is_POD());
+    }
+    template <typename InputIterator, typename ForwardIterator>
+    ForwardIterator uninitialized_copy
+    (InputIterator first, InputIterator last,
+    ForwardIterator dest)
+    {
+        return _uninitialized_copy(first, last, dest, Advance::value_type(first));
+    }
+    template <>
+    char *uninitialized_copy
+    (const char *first, const char *last, char *dest)
+    {
+        memmove(dest, first, last-first);
+        return dest + (last - first);
     }
 }
 #endif

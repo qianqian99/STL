@@ -12,5 +12,18 @@ int main() {
     return 0;
 }
 #else
-www
+#include <iostream>
+#include "./vector.h"
+template <typename Iterator>
+void show(Iterator first, Iterator last) {
+    for (; first != last; ++first) {
+        std::cout << *first << " ";
+    }
+    std::cout << std::endl;
+}
+int main() {
+    hgg::vector<int> v(100);
+    show(v.begin(), v.end());
+    return 0;
+}
 #endif
